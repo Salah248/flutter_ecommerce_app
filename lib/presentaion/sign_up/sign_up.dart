@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
-import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
-import 'package:flutter_ecommerce_app/core/widgets/app_bar.dart';
-import 'package:flutter_ecommerce_app/presentaion/forget_password/forget_password.dart';
-import 'package:flutter_ecommerce_app/core/widgets/build_button.dart';
-import 'package:flutter_ecommerce_app/core/widgets/build_text_button.dart';
-import 'package:flutter_ecommerce_app/core/widgets/build_text_from_field.dart';
-import 'package:flutter_ecommerce_app/presentaion/sign_up/sign_up.dart';
+import 'package:flutter_ecommerce_app/presentaion/login/login_view.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+import '../../core/resources/app_colors.dart';
+import '../../core/widgets/app_bar.dart';
+import '../../core/widgets/build_button.dart';
+import '../../core/widgets/build_text_button.dart';
+import '../../core/widgets/build_text_from_field.dart';
+
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +40,20 @@ class LoginView extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
+                      CustomTextFormField(
+                        label: 'Name',
+                        hintText: 'Name',
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'This Field is Required ';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       CustomTextFormField(
                         label: 'Email',
                         hintText: 'Email',
@@ -73,45 +87,34 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          BuildTextButton(
-                            text: 'Forget Password?',
-                            onPressed: () {
-                              AppNavigator.push(context, ForgetPassword());
-                            },
-                          ),
-                        ],
-                      ),
                       SizedBox(
                         height: 10,
                       ),
                       BuildButton(
-                        text: 'Login',
+                        text: 'Sign Up',
                         onPressed: () {},
                       ),
                       SizedBox(
                         height: 15,
                       ),
                       BuildButton(
-                        text: 'Login With Google',
+                        text: 'Sign Up With Google',
                         onPressed: () {},
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don\'t have an account?',
+                            'Aleardy have an account?',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
                           ),
                           BuildTextButton(
-                            text: 'Sign Up',
+                            text: 'Login',
                             onPressed: () {
-                              AppNavigator.push(context, SignUp());
+                              AppNavigator.pushAndRemove(context, LoginView());
                             },
                           )
                         ],
