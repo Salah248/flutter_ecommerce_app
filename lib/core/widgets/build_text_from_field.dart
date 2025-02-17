@@ -47,6 +47,7 @@ class CustomTextFormField extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(color: AppColors.kGreyColor),
         labelText: label,
+        labelStyle: TextStyle(color: AppColors.kGreyColor),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         suffixIcon: suffixIcon,
       ),

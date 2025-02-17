@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
+import 'package:flutter_ecommerce_app/core/widgets/custom_elevated_button.dart';
 
 class BuildButton extends StatelessWidget {
   final String text;
@@ -19,15 +20,9 @@ class BuildButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.kPrimaryColor,
-            foregroundColor: AppColors.kWhiteColor,
-          ),
-          onPressed: onPressed,
-          child: Icon(Icons.arrow_forward,color: AppColors.kWhiteColor,),
-        )
+        CustomElevatedButton(onPressed: onPressed, child: Icon(Icons.arrow_forward,color: AppColors.kWhiteColor))
       ],
     );
   }
 }
+

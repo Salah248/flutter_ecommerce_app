@@ -6,6 +6,7 @@ import 'package:flutter_ecommerce_app/presentaion/forget_password/forget_passwor
 import 'package:flutter_ecommerce_app/core/widgets/build_button.dart';
 import 'package:flutter_ecommerce_app/core/widgets/build_text_button.dart';
 import 'package:flutter_ecommerce_app/core/widgets/build_text_from_field.dart';
+import 'package:flutter_ecommerce_app/presentaion/main/main_page.dart';
 import 'package:flutter_ecommerce_app/presentaion/sign_up/sign_up.dart';
 
 class LoginView extends StatelessWidget {
@@ -89,7 +90,9 @@ class LoginView extends StatelessWidget {
                       ),
                       BuildButton(
                         text: 'Login',
-                        onPressed: () {},
+                        onPressed: () {
+                          AppNavigator.pushReplacement(context, MainPageView());
+                        },
                       ),
                       SizedBox(
                         height: 15,
