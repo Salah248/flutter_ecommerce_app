@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
 import 'package:flutter_ecommerce_app/core/resources/assets.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/main_page.dart';
-import 'package:flutter_ecommerce_app/presentaion/login/login_view.dart';
+import 'package:flutter_ecommerce_app/presentaion/auth/login/login_view.dart';
 import 'package:flutter_ecommerce_app/presentaion/splash/bloc/cubit/splash_cubit.dart';
 
 class SplashPage extends StatelessWidget {

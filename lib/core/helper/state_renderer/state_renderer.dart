@@ -20,18 +20,19 @@ enum StateRendererType {
   // general
   contentState
 }
-
 class StateRenderer extends StatelessWidget {
   final StateRendererType stateRendererType;
   final String message;
   final String title;
   final Function retryActionFunction;
 
-  const StateRenderer(
-      {super.key, required this.stateRendererType,
-      this.message = 'loading',
-      this.title = "",
-      required this.retryActionFunction});
+  const StateRenderer({
+    super.key,
+    required this.stateRendererType,
+    this.message = 'loading',
+    this.title = "",
+    required this.retryActionFunction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class StateRenderer extends StatelessWidget {
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAssets.error),
           _getMessage(message),
-          _getRetryButton('ok', context)
+          _getRetryButton('OK', context), // Use "OK" button instead of "Retry"
         ]);
       case StateRendererType.fullScreenLoadingState:
         return _getItemsColumn(
@@ -56,7 +57,7 @@ class StateRenderer extends StatelessWidget {
         return _getItemsColumn([
           _getAnimatedImage(JsonAssets.error),
           _getMessage(message),
-          _getRetryButton('retryAgain', context)
+          _getRetryButton('Retry', context),
         ]);
       case StateRendererType.fullScreenEmptyState:
         return _getItemsColumn(
@@ -70,13 +71,12 @@ class StateRenderer extends StatelessWidget {
           _getMessage(message),
           _getRetryButton('ok', context)
         ]);
-      }
+    }
   }
 
   Widget _getPopUpDialog(BuildContext context, List<Widget> children) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       elevation: 1.5,
       backgroundColor: Colors.transparent,
       child: Container(
@@ -145,7 +145,7 @@ class StateRenderer extends StatelessWidget {
                     Navigator.of(context).pop();
                   }
                 },
-                child: Text(buttonTitle),),),
+                child: Text(buttonTitle))),
       ),
     );
   }

@@ -82,12 +82,12 @@ extension FlowStateExtension on FlowState {
       case const (LoadingState):
         {
           if (getStateRendererType() == StateRendererType.popupLoadingState) {
-            // show popup loading
+            // Show popup loading
             showPopup(context, getStateRendererType(), getMessage());
-            // show content ui of the screen
+            // Return the content screen widget
             return contentScreenWidget;
           } else {
-            // full screen loading state
+            // Full screen loading state
             return StateRenderer(
                 message: getMessage(),
                 stateRendererType: getStateRendererType(),
@@ -98,12 +98,12 @@ extension FlowStateExtension on FlowState {
         {
           dismissDialog(context);
           if (getStateRendererType() == StateRendererType.popupErrorState) {
-            // show popup error
+            // Show popup error with "OK" button
             showPopup(context, getStateRendererType(), getMessage());
-            // show content ui of the screen
+            // Return the content screen widget
             return contentScreenWidget;
           } else {
-            // full screen error state
+            // Full screen error state
             return StateRenderer(
                 message: getMessage(),
                 stateRendererType: getStateRendererType(),
@@ -119,40 +119,44 @@ extension FlowStateExtension on FlowState {
         }
       case const (ContentState):
         {
+          // Dismiss any open dialogs
           dismissDialog(context);
+          // Return the content screen widget
           return contentScreenWidget;
         }
       case const (SuccessState):
         {
-          // i should check if we are showing loading popup to remove it before showing success popup
+          // Dismiss any open dialogs (e.g., loading dialog)
           dismissDialog(context);
-
-          // show popup
+          // Show success popup
           showPopup(context, StateRendererType.popupSuccess, getMessage(),
-              title: 'success');
-          // return content ui of the screen
+              title: 'Success');
+          // Return the content screen widget
           return contentScreenWidget;
         }
       default:
         {
+          // Dismiss any open dialogs
           dismissDialog(context);
+          // Return the content screen widget
           return contentScreenWidget;
         }
     }
   }
 
-  _isCurrentDialogShowing(BuildContext context) =>
-      ModalRoute.of(context)?.isCurrent != true;
+  bool _isCurrentDialogShowing(BuildContext context) {
+    return ModalRoute.of(context)?.isCurrent != true;
+  }
 
-  dismissDialog(BuildContext context) {
+  void dismissDialog(BuildContext context) {
     if (_isCurrentDialogShowing(context)) {
-      Navigator.of(context, rootNavigator: true).pop(true);
+      Navigator.of(context, rootNavigator: true).pop();
     }
   }
 
-  showPopup(
+showPopup(
       BuildContext context, StateRendererType stateRendererType, String message,
-      {String title = '0'}) {
+      {String title = ''}) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => showDialog(
         context: context,
