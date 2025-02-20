@@ -27,7 +27,7 @@ class MainPageView extends StatelessWidget {
             body: SafeArea(child: pages[cubit.currentIndex]),
             bottomNavigationBar: Container(
               height: 70,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColors.kWhiteColor,
               ),
               child: Padding(

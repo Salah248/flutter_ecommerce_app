@@ -44,17 +44,17 @@ class _SignUpState extends State<SignUp> {
       builder: (context, state) {
         return Scaffold(
           body: state is AuthLoading
-              ? CustomCircularIndicator()
+              ? const CustomCircularIndicator()
               : SingleChildScrollView(
                   child: SafeArea(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
-                          BasicAppbar(
+                          const BasicAppbar(
                             hideBack: true,
                             title: Text(
                               'Welcome To our market',
@@ -62,13 +62,13 @@ class _SignUpState extends State<SignUp> {
                                   fontSize: 25, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           Card(
-                            margin: EdgeInsets.all(24),
+                            margin: const EdgeInsets.all(24),
                             color: AppColors.kWhiteColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(16))),
                             child: Padding(
@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   CustomTextFormField(
@@ -102,7 +102,7 @@ class _SignUpState extends State<SignUp> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   CustomTextFormField(
@@ -129,10 +129,10 @@ class _SignUpState extends State<SignUp> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   BuildButton(
@@ -148,7 +148,7 @@ class _SignUpState extends State<SignUp> {
                                       }
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   BuildButton(
@@ -160,7 +160,7 @@ class _SignUpState extends State<SignUp> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Aleardy have an account?',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -171,7 +171,7 @@ class _SignUpState extends State<SignUp> {
                                         text: 'Login',
                                         onPressed: () {
                                           AppNavigator.pushAndRemove(
-                                              context, LoginView());
+                                              context, const LoginView());
                                         },
                                       )
                                     ],

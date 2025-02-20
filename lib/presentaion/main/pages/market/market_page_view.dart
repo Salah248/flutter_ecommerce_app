@@ -13,10 +13,10 @@ class MarketPageView extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Center(
+            const Center(
               child: Text(
                 'Welcom To our Market',
                 style: TextStyle(
@@ -25,7 +25,7 @@ class MarketPageView extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             CustomTextFormField(
@@ -39,19 +39,19 @@ class MarketPageView extends StatelessWidget {
                   backgroundColor: AppColors.kPrimaryColor,
                 ),
                 onPressed: () {},
-                label: Icon(
+                label: const Icon(
                   Icons.search,
                   color: AppColors.kWhiteColor,
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: 10,
               itemBuilder: (context, index) {
-                return CustomProductItem();
+                return const CustomProductItem();
               },
             )
           ],

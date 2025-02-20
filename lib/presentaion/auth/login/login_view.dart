@@ -45,17 +45,17 @@ class _LoginViewState extends State<LoginView> {
         AuthCubit cubit = context.read<AuthCubit>();
         return Scaffold(
           body: state is AuthLoading
-              ? CustomCircularIndicator()
+              ? const CustomCircularIndicator()
               : SingleChildScrollView(
                   child: SafeArea(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
-                          BasicAppbar(
+                          const BasicAppbar(
                             hideBack: true,
                             title: Text(
                               'Welcome To our market',
@@ -63,13 +63,13 @@ class _LoginViewState extends State<LoginView> {
                                   fontSize: 25, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           Card(
-                            margin: EdgeInsets.all(24),
+                            margin: const EdgeInsets.all(24),
                             color: AppColors.kWhiteColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(16))),
                             child: Padding(
@@ -88,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   CustomTextFormField(
@@ -115,7 +115,7 @@ class _LoginViewState extends State<LoginView> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -125,12 +125,12 @@ class _LoginViewState extends State<LoginView> {
                                         text: 'Forget Password?',
                                         onPressed: () {
                                           AppNavigator.push(
-                                              context, ForgetPassword());
+                                              context, const ForgetPassword());
                                         },
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   BuildButton(
@@ -144,7 +144,7 @@ class _LoginViewState extends State<LoginView> {
                                       }
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   BuildButton(
@@ -154,7 +154,7 @@ class _LoginViewState extends State<LoginView> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Don\'t have an account?',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class _LoginViewState extends State<LoginView> {
                                       BuildTextButton(
                                         text: 'Sign Up',
                                         onPressed: () {
-                                          AppNavigator.push(context, SignUp());
+                                          AppNavigator.push(context, const SignUp());
                                         },
                                       )
                                     ],

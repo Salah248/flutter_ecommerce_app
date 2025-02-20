@@ -14,14 +14,14 @@ class NavBar extends StatelessWidget {
       onTabChange:onTabChange ,
   rippleColor: AppColors.kPrimaryColor, // tab button ripple color when pressed
   hoverColor: AppColors.kPrimaryColor, // tab button hover color
-  duration: Duration(milliseconds: 400), // tab animation duration
+  duration: const Duration(milliseconds: 400), // tab animation duration
   gap: 8, // the tab button gap between icon and text 
   color: AppColors.kGreyColor, // unselected icon color
   activeColor: AppColors.kWhiteColor, // selected icon and text color
   iconSize: 30, // tab button icon size
   tabBackgroundColor: AppColors.kPrimaryColor, // selected tab background color
-  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8), // navigation bar padding
-  tabs: [
+  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8), // navigation bar padding
+  tabs: const [
     GButton(
       icon: Icons.home,
       text: 'Home',

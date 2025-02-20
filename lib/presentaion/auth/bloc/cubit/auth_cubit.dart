@@ -10,7 +10,12 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
+
   var client = Supabase.instance.client;
+
+  UserDataModel? userDataModel;
+
+  GoogleSignInAccount? googleUser;
 
   Future<void> login({required String email, required String password}) async {
     emit(AuthLoading());
@@ -58,8 +63,6 @@ class AuthCubit extends Cubit<AuthState> {
       );
     }
   }
-
-  GoogleSignInAccount? googleUser;
 
   Future<AuthResponse> nativeGoogleSignIn() async {
     emit(AuthLoading());
@@ -134,8 +137,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  UserDataModel? userDataModel;
-
   Future<void> fetchUserData() async {
     emit(FetchUserDataLoading());
     try {
@@ -143,12 +144,15 @@ class AuthCubit extends Cubit<AuthState> {
             'user_id',
             client.auth.currentUser!.id,
           );
-      userDataModel = UserDataModel(
-          userId: data[0]['user_id'],
-          name: data[0]['name'],
-          email: data[0]['email']);
-      log(data.toString());
-      emit(FetchUserDataSucess());
+
+      if (data.isNotEmpty) {
+        userDataModel = UserDataModel.fromJson(data[0]);
+        log(data.toString());
+        emit(FetchUserDataSucess());
+      } else {
+        userDataModel = null;
+        emit(FetchUserDataFailure("No user data found"));
+      }
     } catch (e) {
       log(e.toString());
       emit(FetchUserDataFailure(e.toString()));

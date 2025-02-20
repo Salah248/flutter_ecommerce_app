@@ -14,14 +14,14 @@ class CachedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      placeholder: (context, url) => SizedBox(
+      placeholder: (context, url) => const SizedBox(
         height: 250,
         width: double.infinity,
         child: Center(
           child: CustomCircularIndicator(),
         ),
       ),
-      errorWidget: (context, url, error) => Icon(Icons.error),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }

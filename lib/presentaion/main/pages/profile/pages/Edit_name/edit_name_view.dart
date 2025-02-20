@@ -10,7 +10,7 @@ class EditNameView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BasicAppbar(
+      appBar: const BasicAppbar(
         hideBack: false,
         backgroundColor: AppColors.kPrimaryColor,
         title: Text(
@@ -22,17 +22,17 @@ class EditNameView extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            CustomTextFormField(
+            const CustomTextFormField(
               label: 'Enter Name',
               hintText: 'Enter Name',
               keyboardType: TextInputType.name,
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             CustomElevatedButton(
               onPressed: () {},
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
-              child: Text(
+              child: const Text(
                 'Update',
                 style: TextStyle(
                   color: AppColors.kWhiteColor,

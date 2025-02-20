@@ -10,7 +10,7 @@ class FavoritesPageView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: ListView(
-          children: [
+          children: const [
             SizedBox(
               height: 15,
             ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
 import 'package:flutter_ecommerce_app/core/resources/assets.dart';
 import 'package:flutter_ecommerce_app/core/resources/constants.dart';
 import 'package:flutter_ecommerce_app/core/widgets/build_text_from_field.dart';
+import 'package:flutter_ecommerce_app/core/widgets/custom_circle_indicator.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_text.dart';
+import 'package:flutter_ecommerce_app/presentaion/main/pages/Home/bloc/cubit/home_data_cubit.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_categorie_item.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_product_item.dart';
 
@@ -28,19 +31,19 @@ class HomePageView extends StatelessWidget {
                   backgroundColor: AppColors.kPrimaryColor,
                 ),
                 onPressed: () {},
-                label: Icon(
+                label: const Icon(
                   Icons.search,
                   color: AppColors.kWhiteColor,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Image.asset(ImageAsset.buy),
-            SizedBox(height: 20),
-            CustomText(text: 'Popular Categories'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
+            const CustomText(text: 'Popular Categories'),
+            const SizedBox(height: 20),
             SizedBox(
               height: 100,
               child: Padding(
@@ -57,18 +60,38 @@ class HomePageView extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            CustomText(text: 'Recently Products'),
-            SizedBox(
+            const SizedBox(height: 20),
+            const CustomText(text: 'Recently Products'),
+            const SizedBox(
               height: 20,
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics:NeverScrollableScrollPhysics() ,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return CustomProductItem();
-              },
+            BlocProvider(
+              create: (context) => ProductDataCubit()..getProducts(),
+              child: BlocConsumer<ProductDataCubit, ProductDataState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  if (state is ProductDataLoading) {
+                    return const CustomCircularIndicator();
+                  } else if (state is ProductDataLoaded) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.product.length,
+                      itemBuilder: (context, index) {
+                        return const CustomProductItem();
+                      },
+                    );
+                  } else if (state is ProductDataError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             )
           ],
         ),

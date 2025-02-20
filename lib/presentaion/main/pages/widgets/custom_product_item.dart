@@ -6,21 +6,24 @@ import 'package:flutter_ecommerce_app/presentaion/main/pages/Product_details/pro
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_cached_image.dart';
 
 class CustomProductItem extends StatelessWidget {
-  const CustomProductItem({super.key});
+  const CustomProductItem({super.key, this.imageUrl}); 
+
+final String? imageUrl;
+  
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AppNavigator.push(context, ProductDetailsView()),
+      onTap: () => AppNavigator.push(context, const ProductDetailsView()),
       child: Card(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Stack(
               children: [
-                ClipRRect(
+                const ClipRRect(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(16),
                     bottomRight: Radius.circular(16),
@@ -41,9 +44,9 @@ class CustomProductItem extends StatelessWidget {
                       horizontal: 8,
                       vertical: 4,
                     ),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.kPrimaryColor,
-                      borderRadius: const BorderRadius.only(
+                      borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       ),
@@ -60,7 +63,7 @@ class CustomProductItem extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Padding(
@@ -68,13 +71,13 @@ class CustomProductItem extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Product Three',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.favorite,
                       color: AppColors.kGreyColor,
                     ),
@@ -87,7 +90,7 @@ class CustomProductItem extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  const Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('223 LE'),
@@ -104,7 +107,7 @@ class CustomProductItem extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                     onPressed: () {},
-                    child: Text(
+                    child: const Text(
                       'Buy Now',
                       style: TextStyle(
                         color: AppColors.kWhiteColor,

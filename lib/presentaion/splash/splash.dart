@@ -15,13 +15,13 @@ class SplashPage extends StatelessWidget {
       body: BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         if (state is UnAuthenticated) {
-          AppNavigator.pushReplacement(context, LoginView());
+          AppNavigator.pushReplacement(context, const LoginView());
         } else {
           AppNavigator.pushReplacement(context, MainPageView());
         }
       },
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
                   ImageAsset.splash,

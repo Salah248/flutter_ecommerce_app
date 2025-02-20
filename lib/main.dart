@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/constants.dart';
 import 'package:flutter_ecommerce_app/core/function/bloc_observer.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
+import 'package:flutter_ecommerce_app/di.dart';
 import 'package:flutter_ecommerce_app/presentaion/auth/bloc/cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/main_page.dart';
 import 'package:flutter_ecommerce_app/presentaion/splash/bloc/cubit/splash_cubit.dart';
@@ -12,10 +13,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: baseUrl,
+    url: baseSupabaseUrl,
     anonKey: apiKey,
   );
-  Bloc.observer =MyObserver();
+  Bloc.observer = MyObserver();
+  setUpDi();
   runApp(const OurMarket());
 }
 
@@ -35,7 +37,6 @@ class OurMarket extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthCubit(),
         ),
-      
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -43,7 +44,9 @@ class OurMarket extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         title: 'Our Market',
-        home: client.auth.currentUser != null ? MainPageView() : SplashPage(),
+        home: client.auth.currentUser != null
+            ? MainPageView()
+            : const SplashPage(),
       ),
     );
   }

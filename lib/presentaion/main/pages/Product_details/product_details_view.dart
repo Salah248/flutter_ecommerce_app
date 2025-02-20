@@ -17,7 +17,7 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BasicAppbar(
+      appBar: const BasicAppbar(
         hideBack: false,
         backgroundColor: AppColors.kPrimaryColor,
         title: Text(
@@ -27,7 +27,7 @@ class ProductDetailsView extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          CachedImage(
+          const CachedImage(
             imageUrl:
                 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1u4JMd.img?w=768&h=513&m=6',
           ),
@@ -35,20 +35,20 @@ class ProductDetailsView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
             child: Column(
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('product name'),
                     Text('200 LE'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    const Row(
                       children: [
                         Text('3 '),
                         Icon(
@@ -60,18 +60,18 @@ class ProductDetailsView extends StatelessWidget {
                     IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.favorite,
                         color: AppColors.kGreyColor,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text('product Decription'),
-                SizedBox(
+                const Text('product Decription'),
+                const SizedBox(
                   height: 30,
                 ),
                 RatingBar.builder(
@@ -80,8 +80,8 @@ class ProductDetailsView extends StatelessWidget {
                   direction: Axis.horizontal,
                   allowHalfRating: false,
                   itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => Icon(
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
@@ -89,31 +89,31 @@ class ProductDetailsView extends StatelessWidget {
                     log(rating.toString());
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 CustomTextFormField(
                   label: 'Feadback',
                   hintText: 'Type your Feedback',
                   suffixIcon:
-                      IconButton(onPressed: () {}, icon: Icon(Icons.send)),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.send)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.topLeft,
                   child: CustomText(text: 'Comments'),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ListView.separated(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: 5,
-                  itemBuilder: (context, index) => CustomComment(),
-                  separatorBuilder: (context, index) => Divider(),
+                  itemBuilder: (context, index) => const CustomComment(),
+                  separatorBuilder: (context, index) => const Divider(),
                 ),
               ],
             ),

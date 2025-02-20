@@ -35,10 +35,10 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: SizedBox(
+                  icon: const SizedBox(
                     height: 50,
                     width: 50,
-                    child: const Icon(Icons.arrow_back_ios_new,
+                    child: Icon(Icons.arrow_back_ios_new,
                         size: 25, color: Colors.white),
                   ),
                 )),

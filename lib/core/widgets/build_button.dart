@@ -20,7 +20,7 @@ class BuildButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        CustomElevatedButton(onPressed: onPressed, child: Icon(Icons.arrow_forward,color: AppColors.kWhiteColor))
+        CustomElevatedButton(onPressed: onPressed, child: const Icon(Icons.arrow_forward,color: AppColors.kWhiteColor))
       ],
     );
   }

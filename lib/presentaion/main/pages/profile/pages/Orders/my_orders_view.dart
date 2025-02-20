@@ -10,7 +10,7 @@ class MyOrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BasicAppbar(
+      appBar: const BasicAppbar(
         hideBack: false,
         backgroundColor: AppColors.kPrimaryColor,
         title: Text(
@@ -23,10 +23,10 @@ class MyOrdersView extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: ListView.builder(
             shrinkWrap: false,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: 10,
             itemBuilder: (context, index) {
-              return CustomProductItem();
+              return const CustomProductItem();
             },
           ),
         ),

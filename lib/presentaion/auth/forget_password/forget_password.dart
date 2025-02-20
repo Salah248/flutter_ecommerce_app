@@ -28,7 +28,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       builder: (context, state) {
         return Scaffold(
           body: state is AuthLoading
-              ? CustomCircularIndicator()
+              ? const CustomCircularIndicator()
               : SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -36,27 +36,27 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
-                          Text(
+                          const Text(
                             'Enter Your Email To Reset Password',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 22),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           Card(
                             color: AppColors.kWhiteColor,
-                            margin: EdgeInsets.all(24),
+                            margin: const EdgeInsets.all(24),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16)),
                             child: Padding(
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   CustomTextFormField(
@@ -71,7 +71,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   ElevatedButton(
@@ -85,7 +85,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                             email: _emailController.text);
                                       }
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Reset',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,

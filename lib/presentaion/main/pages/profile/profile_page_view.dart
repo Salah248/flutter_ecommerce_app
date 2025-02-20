@@ -26,13 +26,13 @@ class ProfilePageView extends StatelessWidget {
               child: BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is AuthSucess) {
-                    return AppNavigator.pushReplacement(context, LoginView());
+                    return AppNavigator.pushReplacement(context, const LoginView());
                   }
                 },
                 builder: (context, state) {
                   UserDataModel? user = context.read<AuthCubit>().userDataModel;
                   return state is AuthLoading || state is FetchUserDataLoading
-                      ? CustomCircularIndicator()
+                      ? const CustomCircularIndicator()
                       : Center(
                           child: SizedBox(
                             height: MediaQuery.sizeOf(context).height * .55,
@@ -47,10 +47,10 @@ class ProfilePageView extends StatelessWidget {
                                 padding: const EdgeInsets.all(16),
                                 child: Column(
                                   children: [
-                                    CircleAvatar(
+                                    const CircleAvatar(
                                       backgroundColor: AppColors.kPrimaryColor,
                                       radius: 35,
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.person,
                                         color: AppColors.kWhiteColor,
                                         size: 45,
@@ -68,7 +68,7 @@ class ProfilePageView extends StatelessWidget {
                                     Text(
                                       user?.email ??
                                           'user_email@gmail.com',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey,
                                       ),
@@ -79,7 +79,7 @@ class ProfilePageView extends StatelessWidget {
                                       text: 'Edit Name',
                                       onPressed: () {
                                         AppNavigator.push(
-                                            context, EditNameView());
+                                            context, const EditNameView());
                                       },
                                     ),
                                     const SizedBox(height: 15),
@@ -88,7 +88,7 @@ class ProfilePageView extends StatelessWidget {
                                       text: 'My Orders',
                                       onPressed: () {
                                         AppNavigator.push(
-                                            context, MyOrdersView());
+                                            context, const MyOrdersView());
                                       },
                                     ),
                                     const SizedBox(height: 15),
