@@ -18,19 +18,19 @@ class MyOrdersView extends StatelessWidget {
           style: TextStyle(color: AppColors.kWhiteColor),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: ListView.builder(
-            shrinkWrap: false,
-            physics: const BouncingScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return const CustomProductItem();
-            },
-          ),
-        ),
-      ),
+      // body: SafeArea(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(10),
+      //     child: ListView.builder(
+      //       shrinkWrap: false,
+      //       physics: const BouncingScrollPhysics(),
+      //       itemCount: 10,
+      //       itemBuilder: (context, index) {
+      //         return const CustomProductItem();
+      //       },
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

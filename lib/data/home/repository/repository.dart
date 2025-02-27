@@ -5,4 +5,5 @@ import '../../../core/helper/network/failure.dart';
 
 abstract class ProductRepository {
   Future<Either<Failure, List<ProductEntity>>> getProductData();
+
 }

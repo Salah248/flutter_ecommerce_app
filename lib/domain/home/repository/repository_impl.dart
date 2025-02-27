@@ -28,7 +28,8 @@ class ProductRepositoryImpl implements ProductRepository {
             // تأكد من أن البيانات قائمة
             if (data is List) {
               var products = data
-                  .map((item) => ProductMapper.toEntity(ProductModel.fromJson(item)))
+                  .map((item) =>
+                      ProductMapper.toEntity(ProductModel.fromJson(item)))
                   .toList();
               return Right(products);
             } else {

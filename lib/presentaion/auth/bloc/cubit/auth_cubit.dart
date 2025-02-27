@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_ecommerce_app/constants.dart';
-import 'package:flutter_ecommerce_app/data/model/user_model.dart';
+import 'package:flutter_ecommerce_app/data/users/model/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

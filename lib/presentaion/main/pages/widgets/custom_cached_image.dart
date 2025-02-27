@@ -15,7 +15,7 @@ class CachedImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       placeholder: (context, url) => const SizedBox(
-        height: 250,
+        height: 150,
         width: double.infinity,
         child: Center(
           child: CustomCircularIndicator(),

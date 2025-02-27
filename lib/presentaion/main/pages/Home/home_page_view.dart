@@ -1,17 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
 import 'package:flutter_ecommerce_app/core/resources/assets.dart';
 import 'package:flutter_ecommerce_app/core/resources/constants.dart';
 import 'package:flutter_ecommerce_app/core/widgets/build_text_from_field.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_circle_indicator.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_text.dart';
-import 'package:flutter_ecommerce_app/presentaion/main/pages/Home/bloc/cubit/home_data_cubit.dart';
+import 'package:flutter_ecommerce_app/presentaion/main/bloc/cubit/main_data_cubit.dart';
+import 'package:flutter_ecommerce_app/presentaion/main/pages/Home/widgets/category_view.dart';
+import 'package:flutter_ecommerce_app/presentaion/main/pages/Home/widgets/search_content.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_categorie_item.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_product_item.dart';
 
-class HomePageView extends StatelessWidget {
-  const HomePageView({super.key});
+class HomePageView extends StatefulWidget {
+  const HomePageView({
+    super.key,
+    this.query,
+  });
+
+  final String? query;
+
+  @override
+  State<HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<HomePageView> {
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode(); // إضافة FocusNode
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose(); // إغلاق FocusNode
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +43,41 @@ class HomePageView extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
-            CustomTextFormField(
-              label: 'Search',
-              hintText: 'Search in Market...',
-              suffixIcon: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  iconSize: 30,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  backgroundColor: AppColors.kPrimaryColor,
-                ),
-                onPressed: () {},
-                label: const Icon(
-                  Icons.search,
-                  color: AppColors.kWhiteColor,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: CustomTextFormField(
+                label: 'Search',
+                hintText: 'Search in Market...',
+                controller: _searchController,
+                focusNode: _searchFocusNode, // ربط FocusNode
+                suffixIcon: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    iconSize: 30,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    backgroundColor: AppColors.kPrimaryColor,
+                  ),
+                  onPressed: () {
+                    if (_searchController.text.isNotEmpty) {
+                      // إغلاق الكيبورد
+                      _searchFocusNode.unfocus();
+
+                      // الانتقال إلى صفحة البحث
+                      AppNavigator.push(
+                        context,
+                        SearchContent(query: _searchController.text),
+                      );
+                    }
+                    _searchController.clear();
+                  },
+                  label: const Icon(
+                    Icons.search,
+                    color: AppColors.kWhiteColor,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Image.asset(ImageAsset.buy),
             const SizedBox(height: 20),
             const CustomText(text: 'Popular Categories'),
@@ -52,9 +90,18 @@ class HomePageView extends StatelessWidget {
                   itemCount: kIcons.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return CustomCategorieItem(
-                      icon: kIcons[index],
-                      text: kTexts[index],
+                    return GestureDetector(
+                      onTap: () {
+                        // الانتقال إلى صفحة الفئة
+                        AppNavigator.push(
+                          context,
+                          CategoryView(category: kTexts[index]),
+                        );
+                      },
+                      child: CustomCategorieItem(
+                        icon: kIcons[index],
+                        text: kTexts[index],
+                      ),
                     );
                   },
                 ),
@@ -62,17 +109,16 @@ class HomePageView extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const CustomText(text: 'Recently Products'),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             BlocProvider(
-              create: (context) => ProductDataCubit()..getProducts(),
-              child: BlocConsumer<ProductDataCubit, ProductDataState>(
+              create: (context) =>
+                  MainDataCubit()..getProducts(query: widget.query),
+              child: BlocConsumer<MainDataCubit, MainDataState>(
                 listener: (context, state) {
-                  // TODO: implement listener
+                  // يمكنك إضافة استجابات للحالات هنا إذا لزم الأمر
                 },
                 builder: (context, state) {
-                  if (state is ProductDataLoading) {
+                  if (state is MainDataLoading) {
                     return const CustomCircularIndicator();
                   } else if (state is ProductDataLoaded) {
                     return ListView.builder(
@@ -80,10 +126,16 @@ class HomePageView extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.product.length,
                       itemBuilder: (context, index) {
-                        return const CustomProductItem();
+                        final product = state.product[index];
+                        return CustomProductItem(
+                          product: product,
+                          isFavorite: context
+                              .read<MainDataCubit>()
+                              .checkIsFavorite(state.product[index].productId!),
+                        );
                       },
                     );
-                  } else if (state is ProductDataError) {
+                  } else if (state is MainDataError) {
                     return Center(
                       child: Text(state.message),
                     );
@@ -92,7 +144,7 @@ class HomePageView extends StatelessWidget {
                   }
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

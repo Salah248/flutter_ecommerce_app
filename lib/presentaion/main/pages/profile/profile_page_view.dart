@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_circle_indicator.dart';
-import 'package:flutter_ecommerce_app/data/model/user_model.dart';
+import 'package:flutter_ecommerce_app/data/users/model/user_model.dart';
 import 'package:flutter_ecommerce_app/presentaion/auth/bloc/cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce_app/presentaion/auth/login/login_view.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/profile/pages/Edit_name/edit_name_view.dart';
@@ -35,7 +35,7 @@ class ProfilePageView extends StatelessWidget {
                       ? const CustomCircularIndicator()
                       : Center(
                           child: SizedBox(
-                            height: MediaQuery.sizeOf(context).height * .55,
+                            height: MediaQuery.sizeOf(context).height * .66,
                             child: Card(
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 16),

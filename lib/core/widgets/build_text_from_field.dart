@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../resources/app_colors.dart';
+import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -13,6 +12,8 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     required this.hintText,
     this.obscuringCharacter = '•',
+    this.onChanged,
+    this.focusNode, // إضافة FocusNode
   });
 
   final String label;
@@ -23,6 +24,9 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool obscureText;
   final String obscuringCharacter;
+  final Function(String)? onChanged;
+  final FocusNode? focusNode; // إضافة FocusNode
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -30,7 +34,8 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       obscureText: obscureText,
-      
+      onChanged: onChanged,
+      focusNode: focusNode, // ربط FocusNode
       obscuringCharacter: obscuringCharacter,
       decoration: InputDecoration(
         border: OutlineInputBorder(

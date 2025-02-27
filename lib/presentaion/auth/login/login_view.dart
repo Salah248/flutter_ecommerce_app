@@ -77,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
                               child: Column(
                                 children: [
                                   CustomTextFormField(
-                                    label: 'Email',
+                                 label: 'Email',
                                     hintText: 'Email',
                                     controller: emailController,
                                     keyboardType: TextInputType.emailAddress,
@@ -97,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                                     controller: passwordController,
                                     obscureText: isPasswordVisible,
                                     keyboardType: TextInputType.visiblePassword,
-                                    suffixIcon: IconButton(
+                                       suffixIcon: IconButton(
                                       onPressed: () {
                                         setState(() {
                                           isPasswordVisible =

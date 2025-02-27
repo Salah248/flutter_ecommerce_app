@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_elevated_button.dart';
+import 'package:flutter_ecommerce_app/domain/home/entity/home_entity.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/Product_details/product_details_view.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_cached_image.dart';
 
-class CustomProductItem extends StatelessWidget {
-  const CustomProductItem({super.key, this.imageUrl}); 
+import '../../bloc/cubit/main_data_cubit.dart';
 
-final String? imageUrl;
-  
+class CustomProductItem extends StatelessWidget {
+  const CustomProductItem({
+    super.key,
+    required this.product,
+    required this.isFavorite,
+  });
+  final ProductEntity product;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
+    var mainCubit = context.read<MainDataCubit>();
+
     return GestureDetector(
-      onTap: () => AppNavigator.push(context, const ProductDetailsView()),
+      onTap: () =>
+          AppNavigator.push(context, ProductDetailsView(product: product, isFavorite: isFavorite,)),
       child: Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -23,15 +33,15 @@ final String? imageUrl;
           children: [
             Stack(
               children: [
-                const ClipRRect(
-                  borderRadius: BorderRadius.only(
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(16),
                     bottomRight: Radius.circular(16),
                     bottomLeft: Radius.circular(16),
                   ),
                   child: CachedImage(
-                    imageUrl:
-                        'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1u4JMd.img?w=768&h=513&m=6',
+                    imageUrl: product.imageUrl ??
+                        "https://img.freepik.com/premium-vector/404-tab-red_114341-29.jpg?w=826",
                   ),
                 ),
                 Positioned(
@@ -51,9 +61,9 @@ final String? imageUrl;
                         bottomRight: Radius.circular(10),
                       ),
                     ),
-                    child: const Text(
-                      '10% OFF',
-                      style: TextStyle(
+                    child: Text(
+                      '${product.sale}% OFF',
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -63,24 +73,35 @@ final String? imageUrl;
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Product Three',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Text(
+                    product.productName ?? 'Product name',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite,
-                      color: AppColors.kGreyColor,
-                    ),
+                  BlocBuilder<MainDataCubit, MainDataState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          if (isFavorite) {
+                            mainCubit.removeFromFavorite(product.productId!);
+                          } else {
+                            mainCubit.addToFavorite(product.productId!);
+                          }
+                        },
+                        icon: Icon(
+                          Icons.favorite,
+                          color: isFavorite
+                              ? AppColors.kPrimaryColor
+                              : AppColors.kGreyColor,
+                        ),
+                      );
+                    },
                   )
                 ],
               ),
@@ -90,13 +111,13 @@ final String? imageUrl;
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('223 LE'),
+                      Text('${product.price} LE'),
                       Text(
-                        '290 LE',
-                        style: TextStyle(
+                        '${product.oldPrice} LE',
+                        style: const TextStyle(
                           color: AppColors.kGreyColor,
                           decoration: TextDecoration.lineThrough,
                         ),
