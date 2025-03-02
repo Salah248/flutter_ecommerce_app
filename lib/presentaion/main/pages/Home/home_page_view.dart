@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce_app/constants.dart';
 import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
 import 'package:flutter_ecommerce_app/core/resources/assets.dart';
@@ -7,19 +8,23 @@ import 'package:flutter_ecommerce_app/core/resources/constants.dart';
 import 'package:flutter_ecommerce_app/core/widgets/build_text_from_field.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_circle_indicator.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_text.dart';
+import 'package:flutter_ecommerce_app/data/users/model/user_model.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/bloc/cubit/main_data_cubit.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/Home/widgets/category_view.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/Home/widgets/search_content.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_categorie_item.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_product_item.dart';
+import 'package:pay_with_paymob/pay_with_paymob.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({
     super.key,
     this.query,
+    this.userData,
   });
 
   final String? query;
+  final UserDataModel? userData;
 
   @override
   State<HomePageView> createState() => _HomePageViewState();
@@ -28,6 +33,42 @@ class HomePageView extends StatefulWidget {
 class _HomePageViewState extends State<HomePageView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode(); // إضافة FocusNode
+
+  @override
+  void initState() {
+    PaymentData.initialize(
+      apiKey:
+          payMopApiKey, // Required: Found under Dashboard -> Settings -> Account Info -> API Key
+      iframeId: iframeId, // Required: Found under Developers -> iframes
+      integrationCardId:
+          integrationCardId, // Required: Found under Developers -> Payment Integrations -> Online Card ID
+      integrationMobileWalletId:
+          integrationMobileWalletId, // Required: Found under Developers -> Payment Integrations -> Mobile Wallet ID
+
+      // Optional User Data
+      userData: UserData(
+        email: widget.userData?.email ??
+            "User Email", // Optional: Defaults to 'NA'
+        name:
+            widget.userData?.name ?? "User Name", // Optional: Defaults to 'NA'
+      ),
+
+      // Optional Style Customizations
+      style: Style(
+        primaryColor: AppColors.kPrimaryColor, // Default: Colors.blue
+        scaffoldColor: AppColors.kScaffoldColor, // Default: Colors.white
+        appBarBackgroundColor: AppColors.kPrimaryColor, // Default: Colors.blue
+        appBarForegroundColor: AppColors.kWhiteColor, // Default: Colors.white
+        buttonStyle: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.kPrimaryColor,
+          foregroundColor: AppColors.kWhiteColor,
+        ), // Default: ElevatedButton.styleFrom()
+        circleProgressColor: AppColors.kPrimaryColor, // Default: Colors.blue
+        unselectedColor: Colors.grey, // Default: Colors.grey
+      ),
+    );
+    super.initState();
+  }
 
   @override
   void dispose() {

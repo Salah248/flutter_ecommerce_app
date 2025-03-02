@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
         email: email,
       );
-      await fetchUserData();
+      await getUserData();
       emit(AuthSucess());
     } on AuthException catch (e) {
       emit(AuthFailure(e.message));
@@ -53,7 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
       );
 
-      await fetchUserData();
+      await getUserData();
       emit(AuthSucess());
     } on AuthException catch (e) {
       emit(AuthFailure(e.message));
@@ -93,7 +93,7 @@ class AuthCubit extends Cubit<AuthState> {
       accessToken: accessToken,
     );
     await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
-    await fetchUserData();
+    await getUserData();
     emit(AuthSucess());
     return response;
   }
@@ -137,7 +137,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> fetchUserData() async {
+  Future<void> getUserData() async {
     emit(FetchUserDataLoading());
     try {
       final data = await client.from('users').select().eq(

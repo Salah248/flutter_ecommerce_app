@@ -76,15 +76,16 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       return;
     }
 
-    int totalRate = 0;
 
     for (var userRate in rates) {
-      if (userRate.rate != null) {
-        totalRate += userRate.rate!;
+       if (userRate.rate != null) {
+        //[4,2,1,5,3]
+        averageRate += userRate.rate!; //15
       }
     }
-
-    averageRate = totalRate ~/ rates.length;
+    if (rates.isNotEmpty) {
+      averageRate = averageRate ~/ rates.length;
+    }
   }
 
   bool _isUserRateExist({required String productId}) {

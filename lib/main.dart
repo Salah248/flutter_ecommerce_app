@@ -35,7 +35,7 @@ class OurMarket extends StatelessWidget {
           create: (context) => SplashCubit()..appStarted(),
         ),
         BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => AuthCubit()..getUserData(),
         ),
       ],
       child: MaterialApp(

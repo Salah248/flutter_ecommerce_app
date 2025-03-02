@@ -6,3 +6,8 @@ const String productUrl = '${baseUrl}products_table?select=*,favorite_product(*)
 const String ratesUrl = '${baseUrl}rates_table?select=*&for_product=eq.' ;
 const String commentUrl = '${baseUrl}comments_table' ;
 const String favoriteUrl = '${baseUrl}favorite_product' ;
+const String payMopApiKey = 'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TVRBeU56QTFPU3dpYm1GdFpTSTZJbWx1YVhScFlXd2lmUS5ZWl9iT0VISlZaYnJMYm9SQjFTa0NHeFMxV2ZIZVRGeTFfRHVxLTFGMHBRR2hfenM1ZUotYmdnYnN5SnBuenpnQXExYnBzVzVWRUVuN2hFY0xRaFdFUQ==';
+const String iframeId = '903365';
+const String integrationCardId = '4999245';
+const String integrationMobileWalletId = '4999263';
+const String purchaseUrl = '${baseUrl}purchase_table' ;

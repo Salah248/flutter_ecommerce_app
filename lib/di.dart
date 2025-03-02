@@ -10,6 +10,7 @@ import 'package:flutter_ecommerce_app/domain/productDetails/repository/repositor
 import 'package:flutter_ecommerce_app/domain/productDetails/usecase/product_details_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 final di = GetIt.instance;
 
@@ -22,6 +23,9 @@ void setUpDi() {
     NetworkInfoImpl(InternetConnectionChecker.createInstance()),
   );
 
+  // userid   final String userId = Supabase.instance.client.auth.currentUser!.id;
+  di.registerSingleton<Supabase>(Supabase.instance);
+
   // Services
   di.registerSingleton<HomeServices>(HomeServicesImpl());
   di.registerSingleton<ProductsDetailsServices>(ProductsDetailesServicesImpl());
@@ -29,10 +33,13 @@ void setUpDi() {
   // Repositories
   di.registerSingleton<ProductRepository>(
       ProductRepositoryImpl(di<NetworkInfo>()));
-  di.registerSingleton<ProductDetailsRepository>(ProductDetailsRepositoryImpl(di<NetworkInfo>()));
+  di.registerSingleton<ProductDetailsRepository>(
+      ProductDetailsRepositoryImpl(di<NetworkInfo>()));
 
   // Use Cases
   di.registerSingleton<GetProductDataUseCase>(GetProductDataUseCase());
   di.registerSingleton<GetRatesDataUseCase>(GetRatesDataUseCase());
   di.registerSingleton<GetCommentsDataUseCase>(GetCommentsDataUseCase());
+  di.registerSingleton<AddPurchaseUseCase>(AddPurchaseUseCase());
+  di.registerSingleton<GetMyOrdersDataUseCase>(GetMyOrdersDataUseCase());
 }

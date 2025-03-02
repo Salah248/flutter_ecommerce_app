@@ -18,21 +18,15 @@ class MainDataCubit extends Cubit<MainDataState> {
 
   final String userId = Supabase.instance.client.auth.currentUser!.id;
 
-  /// قائمة كل المنتجات المجلوبة من الـ API
   List<ProductEntity> products = [];
-
-  /// قائمة المنتجات المفضلة بعد التصفية
   List<ProductEntity> favoriteProductList = [];
-
-  /// خريطة لتتبع حالة المنتجات المفضلة
   Map<String, bool> favoriteProducts = {};
 
-  /// دالة جلب المنتجات من الـ API وتحديث القوائم
-  /// يمكن تمرير isFavoriteView لتحديد نوع العرض
   Future<void> getProducts({
     String? query,
     String? category,
     bool isFavoriteView = false,
+    bool isMyOrdersView = false,
   }) async {
     // إعادة تعيين القوائم
     products = [];
@@ -53,8 +47,11 @@ class MainDataCubit extends Cubit<MainDataState> {
         products = data;
 
         // تحديث قائمة المنتجات المفضلة
-        getfilterProductsByFavorite();
+        getProductsByFavorite();
 
+        if (isMyOrdersView) {
+          getMyOrdersProduct();
+        }
         // التحقق من وجود query أولاً
         if (query != null && query.isNotEmpty) {
           search(query);
@@ -67,7 +64,7 @@ class MainDataCubit extends Cubit<MainDataState> {
         else {
           // إذا كانت الشاشة الخاصة بالمفضلات، نترك الحالة كما هي (FavoriteProductLoaded)
           // وإلا نعرض كل المنتجات
-          if (!isFavoriteView) {
+          if (!isFavoriteView && !isMyOrdersView) {
             emit(ProductDataLoaded(data));
           }
         }
@@ -75,7 +72,6 @@ class MainDataCubit extends Cubit<MainDataState> {
     );
   }
 
-  /// البحث عن المنتجات بناءً على نص الاستعلام
   void search(String query) {
     searchProduct(query);
     emit(MainDataLoading());
@@ -167,7 +163,7 @@ class MainDataCubit extends Cubit<MainDataState> {
   }
 
   /// دالة تصفية المنتجات المفضلة
-  void getfilterProductsByFavorite() {
+  void getProductsByFavorite() {
     // تنظيف القائمة قبل التصفية
     favoriteProductList.clear();
 
@@ -184,5 +180,42 @@ class MainDataCubit extends Cubit<MainDataState> {
       }
     }
     emit(FavoriteProductLoaded(favoriteProductList));
+  }
+
+  Future<void> buyProduct(String productId) async {
+    emit(MainDataLoading());
+    try {
+      var returnedData = await di<AddPurchaseUseCase>().call(params: productId);
+      return returnedData.fold(
+        (l) {
+          emit(MainDataError(l.message));
+        },
+        (_) {
+          emit(SuccessBuyProduct());
+        },
+      );
+    } catch (e) {
+      log(e.toString());
+      emit(MainDataError(e.toString()));
+    }
+  }
+
+  // تصفية المنتجات المفضلة
+  Future<void> getMyOrdersProduct() async {
+    emit(MainDataLoading());
+    try {
+      var returnedData = await di<GetMyOrdersDataUseCase>().call();
+      return returnedData.fold(
+        (l) {
+          emit(MainDataError(l.message));
+        },
+        (data) {
+          emit(MyOrdersLoaded(data));
+        },
+      );
+    } catch (e) {
+      log(e.toString());
+      emit(MainDataError(e.toString()));
+    }
   }
 }

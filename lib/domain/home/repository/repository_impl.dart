@@ -45,4 +45,60 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> buyProduct(String productId) async {
+    if (productId.isEmpty) {
+      return Left(Failure(0, "Product ID cannot be empty"));
+    }
+
+    if (await _networkInfo.isConnected) {
+      try {
+        var result = await di<HomeServices>().buyProduct(productId);
+        return result.fold(
+          (error) => Left(Failure(0, error)),
+          (_) =>
+              const Right(null), // إرجاع Right(null) لأن النوع المتوقع هو void
+        );
+      } catch (e) {
+        log(e.toString());
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getMyOrders() async {
+    if (await _networkInfo.isConnected) {
+      try {
+        var result = await di<HomeServices>().getHomeData();
+        return result.fold(
+          (error) => Left(Failure(0, error)),
+          (data) {
+            // تأكد من أن البيانات قائمة
+            if (data is List) {
+              var products = data
+                  .map((item) =>
+                      ProductMapper.toEntity(ProductModel.fromJson(item)))
+                  .toList();
+              final myOrdersProducts = products
+                  .where((product) => product.purchaseTable
+                      .any((order) => order.isBought == true))
+                  .toList();
+              return Right(myOrdersProducts);
+            } else {
+              return Left(Failure(0, "Invalid data format"));
+            }
+          },
+        );
+      } catch (e) {
+        log(e.toString());
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

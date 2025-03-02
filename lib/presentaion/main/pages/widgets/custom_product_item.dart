@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce_app/core/function/show_msg_snack.dart';
 import 'package:flutter_ecommerce_app/core/helper/navigation/app_navigation.dart';
 import 'package:flutter_ecommerce_app/core/resources/app_colors.dart';
 import 'package:flutter_ecommerce_app/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_ecommerce_app/domain/home/entity/home_entity.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/Product_details/product_details_view.dart';
 import 'package:flutter_ecommerce_app/presentaion/main/pages/widgets/custom_cached_image.dart';
+import 'package:pay_with_paymob/pay_with_paymob.dart';
 
 import '../../bloc/cubit/main_data_cubit.dart';
 
@@ -23,8 +27,12 @@ class CustomProductItem extends StatelessWidget {
     var mainCubit = context.read<MainDataCubit>();
 
     return GestureDetector(
-      onTap: () =>
-          AppNavigator.push(context, ProductDetailsView(product: product, isFavorite: isFavorite,)),
+      onTap: () => AppNavigator.push(
+          context,
+          ProductDetailsView(
+            product: product,
+            isFavorite: isFavorite,
+          )),
       child: Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -127,7 +135,28 @@ class CustomProductItem extends StatelessWidget {
                   CustomElevatedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentView(
+                            onPaymentSuccess: () {
+                              mainCubit.buyProduct(product.productId!);
+                              showMsgSnackBar(context, 'payment success, check your orders');
+                              // Handle payment success
+                              log('Payment Success');
+                            },
+                            onPaymentError: () {
+                              // Handle payment failure
+                              log('Payment Error');
+                            },
+                            price: double.parse(
+                              product.price ?? '100',
+                            ), // Required: Total price (e.g., 100 for 100 EGP)
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Buy Now',
                       style: TextStyle(

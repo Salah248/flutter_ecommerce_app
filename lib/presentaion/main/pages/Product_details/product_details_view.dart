@@ -138,7 +138,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                               controller: _controller,
                               suffixIcon: IconButton(
                                   onPressed: () async {
-                                    context.read<AuthCubit>().fetchUserData();
+                                    context.read<AuthCubit>().getUserData();
                                     cubit.addComment(data: {
                                       "comment": _controller.text,
                                       "for_user": cubit.userId,

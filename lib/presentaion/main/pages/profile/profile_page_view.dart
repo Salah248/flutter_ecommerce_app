@@ -22,7 +22,7 @@ class ProfilePageView extends StatelessWidget {
           children: [
             const SizedBox(height: 70),
             BlocProvider(
-              create: (context) => AuthCubit()..fetchUserData(),
+              create: (context) => AuthCubit()..getUserData(),
               child: BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is AuthSucess) {
