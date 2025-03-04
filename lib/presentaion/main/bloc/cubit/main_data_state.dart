@@ -39,6 +39,6 @@ final class SuccessRemoveFromFavorite extends MainDataState {}
 final class SuccessBuyProduct extends MainDataState {}
 
 final class MyOrdersLoaded extends MainDataState {
-    final List<ProductEntity> products;
-    MyOrdersLoaded(this.products);
+  final List<ProductEntity> products;
+  MyOrdersLoaded(this.products);
 }

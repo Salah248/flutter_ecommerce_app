@@ -18,17 +18,19 @@ class MainDataCubit extends Cubit<MainDataState> {
 
   final String userId = Supabase.instance.client.auth.currentUser!.id;
 
+  // Lists to store products and favorite products
   List<ProductEntity> products = [];
   List<ProductEntity> favoriteProductList = [];
   Map<String, bool> favoriteProducts = {};
 
+  // Fetch products based on query, category, or view type (favorites or orders)
   Future<void> getProducts({
     String? query,
     String? category,
     bool isFavoriteView = false,
     bool isMyOrdersView = false,
   }) async {
-    // إعادة تعيين القوائم
+    // Reset lists
     products = [];
     favoriteProductList = [];
     favoriteProducts.clear();
@@ -43,27 +45,27 @@ class MainDataCubit extends Cubit<MainDataState> {
       (data) {
         log(data.toString());
 
-        // تحديث قائمة المنتجات
+        // Update products list
         products = data;
 
-        // تحديث قائمة المنتجات المفضلة
+        // Update favorite products list
         getProductsByFavorite();
 
+        // If it's the orders view, fetch orders
         if (isMyOrdersView) {
           getMyOrdersProduct();
         }
-        // التحقق من وجود query أولاً
+
+        // Check for search query
         if (query != null && query.isNotEmpty) {
           search(query);
         }
-        // إذا لم يكن هناك query، تحقق من وجود category
+        // Check for category filter
         else if (category != null && category.isNotEmpty) {
           filterProductsByCategory(category);
         }
-        // إذا لم يكن هناك query أو category
+        // If no query or category, show all products
         else {
-          // إذا كانت الشاشة الخاصة بالمفضلات، نترك الحالة كما هي (FavoriteProductLoaded)
-          // وإلا نعرض كل المنتجات
           if (!isFavoriteView && !isMyOrdersView) {
             emit(ProductDataLoaded(data));
           }
@@ -72,11 +74,13 @@ class MainDataCubit extends Cubit<MainDataState> {
     );
   }
 
+  // Search for products by query
   void search(String query) {
     searchProduct(query);
     emit(MainDataLoading());
   }
 
+  // Perform the search operation
   void searchProduct(String query) async {
     var returnedData = await di<GetProductDataUseCase>().call(params: query);
     returnedData.fold(
@@ -101,7 +105,7 @@ class MainDataCubit extends Cubit<MainDataState> {
     );
   }
 
-  /// تصفية المنتجات حسب الفئة
+  // Filter products by category
   void filterProductsByCategory(String category) async {
     emit(MainDataLoading());
     var returnedData = await di<GetProductDataUseCase>().call();
@@ -124,7 +128,7 @@ class MainDataCubit extends Cubit<MainDataState> {
     );
   }
 
-  /// إضافة منتج للمفضلة
+  // Add a product to favorites
   Future<void> addToFavorite(String productId) async {
     emit(MainDataLoading());
     try {
@@ -142,7 +146,7 @@ class MainDataCubit extends Cubit<MainDataState> {
     }
   }
 
-  /// إزالة المنتج من المفضلة
+  // Remove a product from favorites
   Future<void> removeFromFavorite(String productId) async {
     emit(MainDataLoading());
     try {
@@ -157,14 +161,14 @@ class MainDataCubit extends Cubit<MainDataState> {
     }
   }
 
-  /// التحقق مما إذا كان المنتج موجوداً ضمن المفضلة
+  // Check if a product is in favorites
   bool checkIsFavorite(String productId) {
     return favoriteProducts.containsKey(productId);
   }
 
-  /// دالة تصفية المنتجات المفضلة
+  // Filter and update the favorite products list
   void getProductsByFavorite() {
-    // تنظيف القائمة قبل التصفية
+    // Clear the list before filtering
     favoriteProductList.clear();
 
     for (var product in products) {
@@ -182,6 +186,7 @@ class MainDataCubit extends Cubit<MainDataState> {
     emit(FavoriteProductLoaded(favoriteProductList));
   }
 
+  // Buy a product
   Future<void> buyProduct(String productId) async {
     emit(MainDataLoading());
     try {
@@ -200,7 +205,7 @@ class MainDataCubit extends Cubit<MainDataState> {
     }
   }
 
-  // تصفية المنتجات المفضلة
+  // Fetch and filter products for "My Orders" view
   Future<void> getMyOrdersProduct() async {
     emit(MainDataLoading());
     try {
